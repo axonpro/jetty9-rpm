@@ -4,7 +4,7 @@
 
 Name:		jetty9
 Version:	9.0.5.v20130815
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Jetty Binary Distribution
 Packager:	Ernest Beinrohr <Ernest.Beinrohr@axonpro.sk>
 Group:		Java
@@ -89,12 +89,15 @@ rm -rf %{buildroot}
 %{_javadir}/%{name}/
 %attr(775, %{jetty9user}, %{jetty9group}) /var/log/%{name}/
 %attr(775, %{jetty9user}, %{jetty9group}) /var/run/%{name}/
-%attr(775, %{jetty9user}, %{jetty9group}) /var/lib/%{name}
+%attr(751, %{jetty9user}, %{jetty9group}) /var/lib/%{name}
 %{_initddir}/%{name}
 %config /etc/sysconfig/%{name}
 /etc/default/%{name}
 
 %changelog
+* Thu Aug 23 2013 Ernest Beinrohr <Ernest@Beinrohr.sk>
+- Changed jettys homedir, so ssh keys can be used
+
 * Thu Aug 23 2013 Ernest Beinrohr <Ernest@Beinrohr.sk>
 - Initial RPM release
 
