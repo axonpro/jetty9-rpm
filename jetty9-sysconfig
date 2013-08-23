@@ -1,0 +1,38 @@
+# Configuration variables
+#
+# JAVA
+#   Command to invoke Java. If not set, java (from the PATH) will be used.
+#
+# JAVA_OPTIONS
+#   Extra options to pass to the JVM
+#
+# JETTY_HOME
+#   Where Jetty is installed. If not set, the script will try go
+#   guess it by first looking at the invocation path for the script,
+#   and then by looking in standard locations as $HOME/opt/jetty
+#   and /opt/jetty. The java system property "jetty.home" will be
+#   set to this value for use by configure.xml files, f.e.:
+#
+#    <Arg><Property name="jetty.home" default="."/>/webapps/jetty.war</Arg>
+JETTY_HOME=/usr/share/java/jetty9
+
+# JETTY_RUN
+#   Where the jetty.pid file should be stored. It defaults to the
+#   first available of /var/run, /usr/var/run, JETTY_HOME and /tmp 
+#   if not set.
+JETTY_RUN=/var/run/jetty9/
+JETTY_STATE=$JETTY_RUN/jetty9.state
+#  
+# JETTY_PID
+#   The Jetty PID file, defaults to $JETTY_RUN/jetty.pid
+#   
+# JETTY_ARGS
+#   The default arguments to pass to jetty.
+#   For example
+#      JETTY_ARGS=jetty.port=8080 jetty.spdy.port=8443 jetty.secure.port=443
+#
+# JETTY_USER
+#   if set, then used as a username to run the server as
+#
+JETTY_USER=jetty9
+JETTY_LOGS=/var/log/jetty9
