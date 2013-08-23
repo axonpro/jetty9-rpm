@@ -30,7 +30,7 @@ JETTY_STATE=$JETTY_RUN/jetty9b.state
 #   The default arguments to pass to jetty.
 #   For example
 #      JETTY_ARGS=jetty.port=8080 jetty.spdy.port=8443 jetty.secure.port=443
-JETTY_ARGS="jetty.port=8081 jetty.spdy.port=8444 jetty.secure.port=444"
+JETTY_ARGS="jetty.port=8081 jetty.spdy.port=8444 jetty.secure.port=444 jetty.https.port=8445"
 #
 # JETTY_USER
 #   if set, then used as a username to run the server as

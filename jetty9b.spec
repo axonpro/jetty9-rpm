@@ -4,7 +4,7 @@
 
 Name:		jetty9b
 Version:	9.0.5.v20130815
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Jetty Binary Distribution
 Packager:	Ernest Beinrohr <Ernest.Beinrohr@axonpro.sk>
 Group:		Java
@@ -97,6 +97,9 @@ rm -rf %{buildroot}
 /etc/default/%{name}
 
 %changelog
+* Thu Aug 23 2013 Ernest Beinrohr <Ernest@Beinrohr.sk>  - 9.0.5.v20130815.3
+- Conflicting ports 8443
+
 * Thu Aug 23 2013 Ernest Beinrohr <Ernest@Beinrohr.sk>
 - Changed jettys homedir, so ssh keys can be used
 
