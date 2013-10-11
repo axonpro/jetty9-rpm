@@ -5,7 +5,7 @@
 
 Name:		%{pkgname}
 Version:	9.0.5.v20130815
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	Jetty Binary Distribution
 Packager:	Ernest Beinrohr <Ernest.Beinrohr@axonpro.sk>
 Group:		Java
@@ -67,8 +67,10 @@ cp -a README.txt notice.html VERSION.txt  license-eplv10-aslv20.html %{buildroot
 cp -a etc/ %{buildroot}/etc/%{name}/
 cp -a resources/* %{buildroot}/etc/%{name}/
 cp bin/jetty.sh %{buildroot}/%{_initddir}/%{name}
-cp -a lib/ start.jar start.ini start.d/ %{buildroot}/%{_javadir}/%{name}/
-cp -a webapps start.d %{buildroot}/var/lib/%{name}/
+#cp -a lib/ start.jar start.ini start.d/ %{buildroot}/%{_javadir}/%{name}/
+#cp -a webapps start.d %{buildroot}/var/lib/%{name}/
+cp -a lib/ start.jar start.ini %{buildroot}/%{_javadir}/%{name}/
+cp -a webapps %{buildroot}/var/lib/%{name}/
 cp %{SOURCE2} %{buildroot}/etc/sysconfig/%{name}
 ln -s /etc/sysconfig/%{name} %{buildroot}/etc/default/
 ln -s /etc/%{pkgname}/ %{buildroot}%{_javadir}/%{name}/etc
@@ -94,6 +96,9 @@ rm -rf %{buildroot}
 /etc/default/%{name}
 
 %changelog
+* Thu Oct 11 2013 Ernest Beinrohr <Ernest@Beinrohr.sk>
+- Dropped start.d dir with demo.ini
+
 * Thu Oct 11 2013 Ernest Beinrohr <Ernest@Beinrohr.sk>
 - Parametrized build
 
