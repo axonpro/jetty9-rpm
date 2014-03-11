@@ -5,6 +5,8 @@
 #
 # JAVA_OPTIONS
 #   Extra options to pass to the JVM
+JAVA_OPTIONS="-DITMS_CONFIG_DIR=/etc/itms/app -server -Xmx1500M -Djava.awt.headless=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=18888 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dcom.sun.management.snmp.interface=0.0.0.0 -Dcom.sun.management.snmp.port=1161 -Dcom.sun.management.snmp.acl=false"
+
 #
 # JETTY_HOME
 #   Where Jetty is installed. If not set, the script will try go

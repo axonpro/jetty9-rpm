@@ -4,8 +4,10 @@
 %define dirname jetty-distribution
 
 Name:		%{pkgname}
-Version:	9.0.5.v20130815
-Release:	10%{?dist}
+#Version:	9.0.5.v20130815
+#Version:	9.1.1.v20140108
+Version:	9.0.7.v20131107
+Release:	26%{?dist}
 Summary:	Jetty Binary Distribution
 Packager:	Ernest Beinrohr <Ernest.Beinrohr@axonpro.sk>
 Group:		Java
@@ -16,7 +18,9 @@ Source2:	%{pkgname}-sysconfig
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 Summary:	Jetty is an open-source project providing an HTTP server, HTTP client, and javax.servlet container.
 
-Requires:	jdk => 1.7
+Requires:	java-1.7.0-oracle
+Conflicts:	jdk
+Obsoletes:	jdk
 
 %description
 The Jetty Web Server provides a HTTP server and Servlet
@@ -46,20 +50,25 @@ useradd -r -g %{jetty9group} -d /var/lib/%{name} \
 chkconfig --add %{name}
 chkconfig %{name} on
 
-
 %preun
-service %{name} stop
-chkconfig %{name} off
-chkconfig --del %{name}
+if [ $1 -eq 0 ] ; then
+    # Package removal, not upgrade
+    service %{name} stop
+    chkconfig %{name} off
+    chkconfig --del %{name}
+fi
 
 %install
 install -m 755 -d %{buildroot}/usr/share/doc/%{name}-%{version}/
 install -m 755 -d %{buildroot}/etc/%$name}/
 install -m 755 -d %{buildroot}/%{_initddir}/
 install -m 755 -d %{buildroot}/%{_javadir}/%{name}/
+install -m 755 -d %{buildroot}/%{_javadir}/%{name}/resources
 install -m 755 -d %{buildroot}/var/log/%{name}/
 install -m 755 -d %{buildroot}/var/run/%{name}/
 install -m 755 -d %{buildroot}/var/lib/%{name}/
+install -m 755 -d %{buildroot}/var/lib/%{name}/start.d/
+install -m 755 -d %{buildroot}/var/lib/%{name}/work
 install -m 755 -d %{buildroot}/etc/sysconfig/
 install -m 755 -d %{buildroot}/etc/default/
 
@@ -69,6 +78,7 @@ cp -a resources/* %{buildroot}/etc/%{name}/
 cp bin/jetty.sh %{buildroot}/%{_initddir}/%{name}
 #cp -a lib/ start.jar start.ini start.d/ %{buildroot}/%{_javadir}/%{name}/
 #cp -a webapps start.d %{buildroot}/var/lib/%{name}/
+#cp -a modules/ start.ini %{buildroot}/%{_javadir}/%{name}/
 cp -a lib/ start.jar start.ini %{buildroot}/%{_javadir}/%{name}/
 cp -a webapps %{buildroot}/var/lib/%{name}/
 cp %{SOURCE2} %{buildroot}/etc/sysconfig/%{name}
@@ -77,8 +87,23 @@ ln -s /etc/%{pkgname}/ %{buildroot}%{_javadir}/%{name}/etc
 ln -s /var/log/%{name}/     %{buildroot}/%{_javadir}/%{name}/logs
 ln -s /var/log/%{name}/     %{buildroot}/var/lib/%{name}/logs
 ln -s /var/lib/%{name}/webapps     %{buildroot}/%{_javadir}/%{name}/webapps
+ln -s /var/lib/%{name}/work     %{buildroot}/%{_javadir}/%{name}/work
 
 perl -p -i -e 's/ETC\/default\/jetty/ETC\/default\/%{pkgname}/g' %{buildroot}/%{_initddir}/%{name}
+
+echo "OPTIONS=rewrite" >> %{buildroot}/%{_javadir}/%{name}/start.ini
+echo "OPTIONS=client" >> %{buildroot}/%{_javadir}/%{name}/start.ini
+echo "OPTIONS=jaas" >> %{buildroot}/%{_javadir}/%{name}/start.ini
+echo "OPTIONS=jndi" >> %{buildroot}/%{_javadir}/%{name}/start.ini
+echo "OPTIONS=plus" >> %{buildroot}/%{_javadir}/%{name}/start.ini
+echo "OPTIONS=annotations" >> %{buildroot}/%{_javadir}/%{name}/start.ini
+
+#echo "--module=rewrite" >> %{buildroot}/%{_javadir}/%{name}/start.ini
+#echo "--module=client" >> %{buildroot}/%{_javadir}/%{name}/start.ini
+#echo "--module=jaas" >> %{buildroot}/%{_javadir}/%{name}/start.ini
+#echo "--module=jndi" >> %{buildroot}/%{_javadir}/%{name}/start.ini
+#echo "--module=plus" >> %{buildroot}/%{_javadir}/%{name}/start.ini
+#echo "--module=annotations" >> %{buildroot}/%{_javadir}/%{name}/start.ini
 
 %clean
 rm -rf %{buildroot}
@@ -96,6 +121,23 @@ rm -rf %{buildroot}
 /etc/default/%{name}
 
 %changelog
+* Tue Mar 11 2014 Ernest Beinrohr <Ernest@Beinrohr.sk> - 9.0.7
+- New jetty
+- oracle java & -jdk
+
+* Wed Jan 15 2014 Ernest Beinrohr <Ernest@Beinrohr.sk> - 9.1.1.v20140108.17
+- New jetty
+- Added $jetty_home/work dir + symlink
+- chkconfig upgrade repair
+- modules added + OPTIONS removed
+- resources dir added
+
+* Tue Nov 06 2013 Ernest Beinrohr <Ernest@Beinrohr.sk> - 9.0.5.v20130815.14
+- Added options to start.ini
+
+* Thu Oct 30 2013 Ernest Beinrohr <Ernest@Beinrohr.sk>
+- Re-added start.d 
+
 * Thu Oct 11 2013 Ernest Beinrohr <Ernest@Beinrohr.sk>
 - Dropped start.d dir with demo.ini
 
