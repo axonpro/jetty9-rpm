@@ -7,7 +7,7 @@ Name:		%{pkgname}
 #Version:	9.0.5.v20130815
 #Version:	9.1.1.v20140108
 Version:	9.0.7.v20131107
-Release:	26%{?dist}
+Release:	29%{?dist}
 Summary:	Jetty Binary Distribution
 Packager:	Ernest Beinrohr <Ernest.Beinrohr@axonpro.sk>
 Group:		Java
@@ -20,7 +20,7 @@ Summary:	Jetty is an open-source project providing an HTTP server, HTTP client, 
 
 Requires:	java-1.7.0-oracle
 Conflicts:	jdk
-Obsoletes:	jdk
+#Obsoletes:	jdk
 
 %description
 The Jetty Web Server provides a HTTP server and Servlet
@@ -118,7 +118,7 @@ rm -rf %{buildroot}
 %attr(751, %{jetty9user}, %{jetty9group}) /var/lib/%{name}
 %{_initddir}/%{name}
 %config /etc/sysconfig/%{name}
-/etc/default/%{name}
+%config /etc/default/%{name}
 
 %changelog
 * Tue Mar 11 2014 Ernest Beinrohr <Ernest@Beinrohr.sk> - 9.0.7
